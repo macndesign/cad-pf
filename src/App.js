@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Cadastro from './Cadastro';
+import CadastroList from './CadastroList';
+import CadastroDetail from './CadastroDetail';
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+const App = () => {
+  return (
+    <Router>
+      <div>
+          <ul>
+            <li><Link to="/">Lista</Link></li>
+            <li><Link to="/cadastrar">Cadastro</Link></li>
+          </ul>
+          <Switch>
+            <Route exact key="lista" path="/" component={CadastroList} />
+            <Route exact key="cadastrar" path="/cadastrar" component={Cadastro} />
+            <Route exact key="cadastro" path="/:id" component={CadastroDetail} />
+          </Switch>
       </div>
-    );
-  }
+    </Router>
+  )
 }
 
 export default App;
