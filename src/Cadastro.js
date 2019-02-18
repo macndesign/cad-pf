@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { menu } from './App';
+import useFormData from './useFormData';
 
 const Cadastro = ({ history }) => {
-    const [nome, setNome] = useState('');
-    const [data_nascimento, setData_nascimento] = useState('1990-01-01');
-    const [genero, setGenero] = useState('M');
+    const formDataHook = useFormData();
+    const { nome, data_nascimento, genero, escolaridade } = formDataHook.formData;
     useEffect(() => {
         document.getElementById(menu.create.label).classList.add('active');
         return () => {
@@ -14,7 +14,7 @@ const Cadastro = ({ history }) => {
     }, []);
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/cadastros/', { nome, data_nascimento, genero })
+        axios.post('/cadastros/', { nome, data_nascimento, genero, escolaridade })
         .then(res => {
             history.push('/');
         })
@@ -26,18 +26,29 @@ const Cadastro = ({ history }) => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input name="nome" type="text"  value={nome}
-                        onChange={(e) => setNome(e.target.value)} required/>
+                    <input name="nome" type="text"  value={nome} placeholder="Nome completo"
+                        onChange={(e) => formDataHook.updateFormData(e)} required/>
                 </div>
                 <div>
                     <input name="data_nascimento" type="date"  value={data_nascimento}
-                        onChange={(e) => setData_nascimento(e.target.value)} required/>
+                        onChange={(e) => formDataHook.updateFormData(e)} required/>
                 </div>
                 <div>
-                    <select name="genero" value={genero} required
-                        onChange={(e) => setGenero(e.target.value)}>
-                        <option value="M">Masculino</option>
-                        <option value="F">Feminino</option>
+                    <input type="radio" value="M" name="genero"
+                        checked={genero === 'M'} id="generoM"
+                        onChange={(e) => formDataHook.updateFormData(e)}/>
+                    <label htmlFor="generoM">Masculino</label>
+                    <input type="radio" value="F" name="genero"
+                        checked={genero === 'F'} id="generoF"
+                        onChange={(e) => formDataHook.updateFormData(e)}/>
+                    <label htmlFor="generoF">Feminino</label>
+                </div>
+                <div>
+                    <select name="escolaridade" value={escolaridade} required
+                        onChange={(e) => formDataHook.updateFormData(e)}>
+                        <option value="EM">Ensino Médio</option>
+                        <option value="NT">Nível Técnico</option>
+                        <option value="NS">Nível Superior</option>
                     </select>
                 </div>
                 <div className="button-bar">
