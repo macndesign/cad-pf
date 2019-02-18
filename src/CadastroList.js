@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { menu } from './App';
 
 const CadastroList = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
+        document.getElementById(menu.list.label).classList.add('active');
         axios.get('/cadastros/').then(resp => {
                 setItems(resp.data.results);
             }).catch(err => {
                 console.log(err);
             });
+        return () => {
+            document.getElementById(menu.list.label).classList.remove('active');
+        };
     }, []);
 
     return (

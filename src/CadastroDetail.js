@@ -51,10 +51,10 @@ const CadastroDetail = ({ match, history }) => {
                         <option value="F">Feminino</option>
                     </select>
                 </div>
-                <div>
+                <div className="button-bar">
+                    <button className="bg-danger" type="button" style={{float: 'left'}} onClick={handleExcluir}>Excluir</button>
                     <button type="submit">Editar</button>
-                    <button type="button" onClick={handleExcluir}>Excluir</button>
-                    <button type="button" onClick={() => { history.push('/') }}>Voltar</button>
+                    <button className="bg-info" type="button" onClick={() => { history.push('/') }}>Voltar</button>
                 </div>
             </form>
         </div>
